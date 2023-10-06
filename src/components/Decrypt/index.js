@@ -20,17 +20,18 @@ function Decrypt() {
   //function
   const handleDecrypt = async () => {
     if (key.length > 0) {
-      const hashTextHex = await hash(key);
+      const hashKeyHex = await hash(key);
+      console.log(hashKeyHex);
       if (type === "text") {
         if (cipherText.length > 0) {
-          const text = await decrypt(hashTextHex, cipherText);
+          const text = await decrypt(hashKeyHex, cipherText);
           await setPlainText(text);
         } else {
           alert("Please Input the cipherText");
         }
       } else {
         if (fileContent.length > 0) {
-          const text = await decrypt(hashTextHex, fileContent);
+          const text = await decrypt(hashKeyHex, fileContent);
           console.log(text);
           const blob = new Blob([text], { type: "text/plain; charset=utf-8" });
 

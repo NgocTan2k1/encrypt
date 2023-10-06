@@ -21,10 +21,11 @@ function Encrypt() {
   const handleEncrypt = async () => {
     // if(type == 'text') {
     if (key.length > 0) {
-      const hashTextHex = await hash(key);
+      const hashKeyHex = await hash(key);
+      console.log(hashKeyHex);
       if (type === "text") {
         if (plainText.length > 0) {
-          const text = await encrypt(hashTextHex, plainText);
+          const text = await encrypt(hashKeyHex, plainText);
           await setCipherText(text);
           await setBin(stringToBinary(text));
         } else {
@@ -32,7 +33,7 @@ function Encrypt() {
         }
       } else {
         if (fileContent.length > 0) {
-          const text = await encrypt(hashTextHex, fileContent);
+          const text = await encrypt(hashKeyHex, fileContent);
 
           const blob = new Blob([text], { type: "text/plain; charset=utf-8" });
 
