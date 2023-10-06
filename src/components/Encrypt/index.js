@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import "../../App.css";
 import { hash, encrypt, stringToBinary, binaryToString } from "../../tool";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 function Encrypt() {
   const [type, setType] = useState("text");
 
@@ -13,6 +15,7 @@ function Encrypt() {
   const [cipherText, setCipherText] = useState("");
   const [bin, setBin] = useState("");
   const [key, setKey] = useState("");
+  const [hide, setHide] = useState(true);
 
   //function
   const handleEncrypt = async () => {
@@ -128,6 +131,7 @@ function Encrypt() {
                   className="key-input"
                   placeholder="Your Key to Encrypt"
                   value={key}
+                  type={hide && "password"}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
@@ -136,6 +140,18 @@ function Encrypt() {
                   }}
                   onChange={(e) => setKey(e.target.value)}
                 />
+                <div
+                  className="icon"
+                  onClick={() => {
+                    setHide((prev) => !prev);
+                  }}
+                >
+                  {hide ? (
+                    <FontAwesomeIcon icon={faEyeSlash} />
+                  ) : (
+                    <FontAwesomeIcon icon={faEye} />
+                  )}
+                </div>
               </div>
               <button className="btn" onClick={() => handleEncrypt()}>
                 Encrypt

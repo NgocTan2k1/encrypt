@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import "../../App.css";
 
 import { hash, decrypt } from "../../tool";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 function Decrypt() {
   const [type, setType] = useState("text");
@@ -13,6 +15,7 @@ function Decrypt() {
   const [cipherText, setCipherText] = useState("");
   const [fileContent, setFileContent] = useState("");
   const [key, setKey] = useState("");
+  const [hide, setHide] = useState(true);
 
   //function
   const handleDecrypt = async () => {
@@ -20,8 +23,7 @@ function Decrypt() {
       const hashTextHex = await hash(key);
       if (type === "text") {
         if (cipherText.length > 0) {
-          const text = await 
-          decrypt(hashTextHex, cipherText);
+          const text = await decrypt(hashTextHex, cipherText);
           await setPlainText(text);
         } else {
           alert("Please Input the cipherText");
@@ -51,7 +53,6 @@ function Decrypt() {
           document.body.removeChild(a);
 
           await setPlainText("The file content has been processed");
-          
         } else {
           alert("The file content is empty");
         }
@@ -94,7 +95,7 @@ function Decrypt() {
                 className="input"
                 value={cipherText}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
+                  if (e.key === "Enter") {
                     e.preventDefault();
                     handleDecrypt();
                   }
@@ -122,14 +123,27 @@ function Decrypt() {
                   className="key-input"
                   placeholder="Your Key to Decrypt"
                   value={key}
+                  type={hide && "password"}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
+                    if (e.key === "Enter") {
                       e.preventDefault();
                       handleDecrypt();
                     }
                   }}
                   onChange={(e) => setKey(e.target.value)}
                 />
+                <div
+                  className="icon"
+                  onClick={() => {
+                    setHide((prev) => !prev);
+                  }}
+                >
+                  {hide ? (
+                    <FontAwesomeIcon icon={faEyeSlash} />
+                  ) : (
+                    <FontAwesomeIcon icon={faEye} />
+                  )}
+                </div>
               </div>
               <button className="btn" onClick={handleDecrypt}>
                 Decrypt
